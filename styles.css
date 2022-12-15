@@ -1,0 +1,22 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+.wrapper {
+    margin: 0 auto;
+    width: 80vw;
+}
+
+.input-group {
+    margin: 0 auto;
+}
+
+.input-group-text:hover {
+    cursor: pointer;
+}
+
+.spinner-border {
+    display: none;
+}
