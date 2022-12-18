@@ -6,11 +6,27 @@
 
 .wrapper {
     margin: 0 auto;
-    width: 80vw;
+    width: 60vw;
+}
+
+#search-container{
+    background-color: #FED301;
+    padding: 20px;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 5px 5px;
+}
+
+#search-container h1 {
+    margin: 0 auto;
+    text-align: center;
+    padding-bottom: 20px;
 }
 
 .input-group {
     margin: 0 auto;
+    width: 80%;
 }
 
 .input-group-text:hover {
@@ -19,4 +35,42 @@
 
 .spinner-border {
     display: none;
+}
+
+.card-img-top {
+    max-width: 80px;
+}
+
+#header {
+    display: flex;
+    align-items: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+#header h1 {
+    padding-left: 10px;
+    font-size: 32px;
+}
+
+#stock-price {
+    display: flex;
+    padding-bottom: 20px;
+}
+
+#stock-price h4 {
+    padding-left: 10px;
+}
+
+.card{
+    border: none;
+}
+
+p {
+    font-size: 14px;
+    padding-bottom: 20px;
+}
+
+#chart-container {
+    padding-bottom: 50px;
 }

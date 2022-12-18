@@ -1,6 +1,7 @@
 const searchButton = document.getElementById('search-addon');
 const searchInput = document.getElementById('search-input');
 let dataArray = [];
+let companyProfileArr = [];
 
 searchButton.addEventListener('click', () => {
     fetchSearchResults(searchInput.value, 10);
@@ -11,7 +12,6 @@ async function fetchSearchResults(value, limit) {
     try {
         spinnerDisplay();
         const response = await fetch(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/search?query=${value}&limit=${limit}&exchange=NASDAQ`);
-        // spinnerDisplay(spinner, 'hide');
         dataArray = await response.json();
         displayResults();
         spinnerDisplay('hide');
@@ -39,6 +39,7 @@ function displayResults() {
         li.classList.add('list-group-item');
         const a = document.createElement('a');
         a.setAttribute("href", `/company.html?symbol=${element.symbol}`);
+        a.setAttribute("target", `_blank`);
         a.innerText = element.name + element.symbol;
         li.appendChild(a);
         ul.appendChild(li);
