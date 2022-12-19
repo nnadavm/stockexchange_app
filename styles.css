@@ -10,12 +10,12 @@
 }
 
 #search-container{
-    background-color: #FED301;
+    /* background-color: #FED301; */
     padding: 20px;
     margin-top: 50px;
     margin-bottom: 20px;
     border-radius: 10px;
-    box-shadow: 5px 5px;
+    /* box-shadow: 5px 5px; */
 }
 
 #search-container h1 {
@@ -40,25 +40,14 @@
 .marquee {
     height: 25px;
     width: 100%;
-
     overflow: hidden;
     position: relative;
   }
 
   .marquee div {
-    display: block;
-    width: 200%;
-    height: 30px;
-
     position: absolute;
     overflow: hidden;
-
     animation: marquee 40s linear infinite;
-  }
-
-  .marquee span {
-    float: left;
-    /* width: 50%; */
   }
 
   @keyframes marquee {

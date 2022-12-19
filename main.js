@@ -110,6 +110,7 @@ async function fetchStockList() {
         await stockListArray.forEach((e)=> {
             newArray.push(e.symbol, e.price)
         });
+
         const marquee = document.getElementById('marquee-span');
         newArray.forEach((e, i)=>{
             if (i % 2 === 0) {
@@ -134,4 +135,3 @@ async function fetchStockList() {
 }
 
 fetchStockList();
-
