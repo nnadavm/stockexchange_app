@@ -1,24 +1,19 @@
 const searchButton = document.getElementById('search-addon');
 const searchInput = document.getElementById('search-input');
 let dataArray = [];
-let companyProfileArr = [];
-let changeArray = [];
-let priceArray = [];
+let percentChangeArray = [];
 
 searchButton.addEventListener('click', () => {
-    searchResults();
+    getSearchResults();
 })
 
-async function searchResults() {
+async function getSearchResults() {
     spinnerDisplay();
     await fetchSearchResults(searchInput.value, 10);
-    await makePriceArray();
-    await fetchChange();
+    await fetchPercentChange();
     displayResults();
     spinnerDisplay('hide');
 }
-
-
 
 async function fetchSearchResults(value, limit) {
     try {
@@ -30,18 +25,17 @@ async function fetchSearchResults(value, limit) {
     }
 };
 
-async function fetchPrice(symbol) {
+async function fetchPercentChange() {
+    const symbolArray = dataArray.map(a => a.symbol);
+    const symbolString = symbolArray.toString();
     try {
-        const response = await fetch(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/quote-short/${symbol}`);
-        const price = await response.json();
-        console.log(price);
-        priceArray.push(price[0].price);
+        const response = await fetch(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/stock-price-change/${symbolString}`);
+        percentChangeArray = await response.json();
     }
     catch (e) {
         console.log(e);
     }
 };
-
 
 function displayResults() {
     if (document.querySelector('ul')) {
@@ -74,43 +68,14 @@ function displayResults() {
         const change = document.createElement('p');
         change.style.display = 'inline-block'
         change.style.marginLeft = '20px'
-        console.log(changeArray[i]['1D']);
-        const percent = (priceArray[i] / 100) * changeArray[i]['1D'];
-        // changeEle.innerText = `${changes} (${Math.round(percent * 100) / 100}%))`;
-        change.innerText = `(${Math.round(percent * 100) / 100}%))`;
-        // greenOrRed(companyProfileArr[i].change, change);
+        change.innerText = `(${percentChangeArray[i]['1D']}%))`;
+        greenOrRed(percentChangeArray[i]['1D'], change);
         li.appendChild(image);
         li.appendChild(a);
         li.appendChild(symbol);
         li.appendChild(change);
         ul.appendChild(li);
     });
-}
-
-async function fetchChange() {
-    const symbolArray = dataArray.map(a => a.symbol);
-    const symbolString = symbolArray.toString();
-    try {
-        const response = await fetch(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/stock-price-change/${symbolString}`);
-        changeArray = await response.json();
-    }
-    catch (e) {
-        console.log(e);
-    }
-};
-
-async function makePriceArray() {
-    const symbolArray = dataArray.map(a => a.symbol);
-    await fetchPrice(symbolArray[0]);
-    await fetchPrice(symbolArray[1]);
-    await fetchPrice(symbolArray[2]);
-    await fetchPrice(symbolArray[3]);
-    await fetchPrice(symbolArray[4]);
-    await fetchPrice(symbolArray[5]);
-    await fetchPrice(symbolArray[6]);
-    await fetchPrice(symbolArray[7]);
-    await fetchPrice(symbolArray[8]);
-    await fetchPrice(symbolArray[9]);
 }
 
 function spinnerDisplay(command) {

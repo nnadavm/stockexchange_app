@@ -37,40 +37,4 @@
     display: none;
 }
 
-.card-img-top {
-    max-width: 80px;
-}
 
-#header {
-    display: flex;
-    align-items: center;
-    padding-top: 20px;
-    padding-bottom: 20px;
-}
-
-#header h1 {
-    padding-left: 10px;
-    font-size: 32px;
-}
-
-#stock-price {
-    display: flex;
-    padding-bottom: 20px;
-}
-
-#stock-price h4 {
-    padding-left: 10px;
-}
-
-.card{
-    border: none;
-}
-
-p {
-    font-size: 14px;
-    padding-bottom: 20px;
-}
-
-#chart-container {
-    padding-bottom: 50px;
-}
