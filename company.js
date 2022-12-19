@@ -8,6 +8,7 @@ async function fetchCompanyProfile() {
     try {
         const response = await fetch(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/profile/${symbol}`);
         companyProfileArr = await response.json();
+        console.log(companyProfileArr);
         displayData();
     }
     catch (e) {
@@ -18,9 +19,9 @@ async function fetchCompanyProfile() {
 function displayData() {
     const image = document.querySelector('img')
     image.setAttribute('src', `https://fmpcloud.io/image-stock/${companyProfileArr
-[0].symbol}.png`)
+    [0].symbol}.png`)
     const { companyName, description, price, changes, website } = companyProfileArr
-[0];
+    [0];
 
     const title = document.querySelector('h1');
     title.innerText = companyName;
@@ -48,10 +49,8 @@ function displayData() {
 async function fetchCompanyHistory() {
     try {
         const response = await fetch(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/historical-price-full/${symbol}`);
-        companyProfileArr
-     = await response.json();
-        companyProfileArr
-    .historical.forEach(element => {
+        companyProfileArr = await response.json();
+        companyProfileArr.historical.forEach(element => {
             dateHistory.push(element.date);
             priceHistory.push(element.close);
         });
@@ -83,7 +82,7 @@ function makeChart() {
                     beginAtZero: true
                 }
             }
-            
+
         }
     });
 }
