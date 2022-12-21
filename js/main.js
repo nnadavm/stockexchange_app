@@ -39,8 +39,12 @@ function displayResults() {
         document.querySelector('ul').remove()
     };
 
-    if (0 ===0 ) {
         const wrapper = document.querySelector('.wrapper');
+        const noResults = document.querySelector('h6');
+        noResults.style.display = 'none';
+        if (dataArray.length === 0) {
+            noResults.style.display = 'block';
+        }
         const ul = document.createElement('ul');
         ul.classList.add('list-group');
         wrapper.appendChild(ul);
@@ -76,7 +80,7 @@ function displayResults() {
             ul.appendChild(li);
 
         });
-    }
+    
 }
 
 async function displayMarquee() {

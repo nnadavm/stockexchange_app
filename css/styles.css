@@ -54,3 +54,9 @@
     0% { left: 0; }
     100% { left: -100%; }
   }
+
+  h6 {
+    display: none;
+    text-align: center;
+    margin: 0 auto;
+  }
