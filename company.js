@@ -1,19 +1,40 @@
+import { fetchData } from "./api.js";
+
 const urlParams = new URLSearchParams(window.location.search);
 const symbol = urlParams.toString().slice(7)
+// const symbol = window.location.search.slice(8)
 let companyProfileArr = [];
 let dateHistory = [];
 let priceHistory = [];
 
 async function fetchCompanyProfile() {
     try {
-        const response = await fetch(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/profile/${symbol}`);
+        const response = await fetch(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/company/profile/${symbol}`);
         companyProfileArr = await response.json();
-
+        console.log(companyProfileArr)
     }
     catch (e) {
         console.log(e);
     }
 };
+
+// async function fetchData(URL) {
+//     try {
+//         const response = await fetch(URL);
+//         return await response.json();
+//     }
+//     catch (e) {
+//         console.log(e);
+//     }
+// };
+
+const mainFunction = async (key) => {
+    companyProfileArr = await fetchData(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/company/profile/${symbol}`);
+
+    
+    console.log(companyProfileArr);
+}
+
 
 async function fetchCompanyHistory() {
     try {
@@ -32,9 +53,8 @@ async function fetchCompanyHistory() {
 
 function displayData() {
     const image = document.querySelector('img')
-    image.setAttribute('src', `https://fmpcloud.io/image-stock/${companyProfileArr[0].symbol}.png`)
-    const { companyName, description, price, changes, website } = companyProfileArr
-    [0];
+    image.setAttribute('src', `https://fmpcloud.io/image-stock/${companyProfileArr.symbol}.png`)
+    const { companyName, description, price, changes, website } = companyProfileArr.profile;
 
     const title = document.querySelector('h1');
     title.innerText = companyName;
@@ -84,18 +104,15 @@ function makeChart() {
     });
 }
 
-function spinnerDisplay(command) {
+function spinnerDisplay() {
     const spinner = document.getElementById('spinner');
-
-    if (command === 'hide') {
-        spinner.style.display = 'none';
-    } else {
-        spinner.style.display = 'inline-block';
-    }
+    spinner.style.display = 'none';
 };
 
 async function init() {
-    await fetchCompanyProfile();
+    companyProfileArr = await fetchData(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/company/profile/${symbol}`);
+    // await mainFunction()
+    // await fetchCompanyProfile();
     await fetchCompanyHistory();
     spinnerDisplay('hide');
     displayData();
