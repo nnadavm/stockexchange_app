@@ -1,54 +1,16 @@
-import { fetchData } from "./api.js";
+import { fetchData, } from "./utils.js";
 
-const urlParams = new URLSearchParams(window.location.search);
-const symbol = urlParams.toString().slice(7)
-// const symbol = window.location.search.slice(8)
-let companyProfileArr = [];
+const symbol = window.location.search.slice(8)
+let companyProfileArr = await fetchData(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/company/profile/${symbol}`);
 let dateHistory = [];
 let priceHistory = [];
 
-async function fetchCompanyProfile() {
-    try {
-        const response = await fetch(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/company/profile/${symbol}`);
-        companyProfileArr = await response.json();
-        console.log(companyProfileArr)
-    }
-    catch (e) {
-        console.log(e);
-    }
-};
-
-// async function fetchData(URL) {
-//     try {
-//         const response = await fetch(URL);
-//         return await response.json();
-//     }
-//     catch (e) {
-//         console.log(e);
-//     }
-// };
-
-const mainFunction = async (key) => {
-    companyProfileArr = await fetchData(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/company/profile/${symbol}`);
-
-    
-    console.log(companyProfileArr);
-}
-
-
-async function fetchCompanyHistory() {
-    try {
-        const response = await fetch(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/historical-price-full/${symbol}`);
-        const historyArray = await response.json();
-        historyArray.historical.forEach(element => {
-            dateHistory.push(element.date);
-            priceHistory.push(element.close);
-        });
-    }
-    catch (e) {
-        console.log(e);
-    }
-
+async function saveCompanyHistory() {
+    const historyArray = await fetchData(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/historical-price-full/${symbol}`);
+    historyArray.historical.forEach(element => {
+        dateHistory.push(element.date);
+        priceHistory.push(element.close);
+    });
 };
 
 function displayData() {
@@ -110,10 +72,7 @@ function spinnerDisplay() {
 };
 
 async function init() {
-    companyProfileArr = await fetchData(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/company/profile/${symbol}`);
-    // await mainFunction()
-    // await fetchCompanyProfile();
-    await fetchCompanyHistory();
+    await saveCompanyHistory();
     spinnerDisplay('hide');
     displayData();
     makeChart();
