@@ -1,9 +1,8 @@
-import { debounce, setQueryParams, fetchData } from "./utils.js";
+import { debounce, setQueryParams, loadQueryParams, fetchData, greenOrRed, displayElement } from "./utils.js";
+import { searchButton, searchInput, searchSpinner, searchLogo } from "./constants.js";
 
-const searchButton = document.getElementById('search-addon');
-const searchInput = document.getElementById('search-input');
-let dataArray = [];
-let companyProfilesArray = [];
+let dataArray;
+let companyProfilesArray;
 
 searchInput.addEventListener('input', () => {
     const searchDebounce = debounce(() => search());
@@ -15,12 +14,14 @@ searchButton.addEventListener('click', () => {
 })
 
 async function search() {
-    spinnerDisplay();
+    displayElement(searchLogo, 'none');
+    displayElement(searchSpinner, 'inline-block');
     setQueryParams(searchInput.value);
     dataArray = await fetchData(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/search?query=${searchInput.value}&limit=10&exchange=NASDAQ`)
     await saveCompanyProfiles();
     displayResults();
-    spinnerDisplay('hide');
+    displayElement(searchSpinner, 'none');
+    displayElement(searchLogo, 'inline-block');
 }
 
 async function saveCompanyProfiles() {
@@ -31,7 +32,7 @@ async function saveCompanyProfiles() {
         companyProfilesArray = tempConst.companyProfiles;
     } else {
         companyProfilesArray = [tempConst];
-    };    
+    };
 };
 
 function displayResults() {
@@ -39,48 +40,48 @@ function displayResults() {
         document.querySelector('ul').remove()
     };
 
-        const wrapper = document.querySelector('.wrapper');
-        const noResults = document.querySelector('h6');
-        noResults.style.display = 'none';
-        if (dataArray.length === 0) {
-            noResults.style.display = 'block';
-        }
-        const ul = document.createElement('ul');
-        ul.classList.add('list-group');
-        wrapper.appendChild(ul);
-        ul.innerHTML = '';
+    const wrapper = document.querySelector('.wrapper');
+    const noResults = document.querySelector('h6');
+    noResults.style.display = 'none';
+    if (dataArray.length === 0) {
+        noResults.style.display = 'block';
+    }
+    const ul = document.createElement('ul');
+    ul.classList.add('list-group');
+    wrapper.appendChild(ul);
+    ul.innerHTML = '';
 
 
-        dataArray.forEach(function (element, i) {
-            const { image, changesPercentage } = companyProfilesArray[i].profile;
+    dataArray.forEach(function (element, i) {
+        const { image, changesPercentage } = companyProfilesArray[i].profile;
 
-            const li = document.createElement('li');
-            li.classList.add('list-group-item');
-            const a = document.createElement('a');
-            a.setAttribute("href", `/company.html?symbol=${element.symbol}`);
-            a.setAttribute("target", `_blank`);
-            a.innerText = element.name + element.symbol;
-            const imageEle = document.createElement('img')
-            imageEle.setAttribute('src', image)
-            imageEle.style.width = '30px';
-            imageEle.style.marginRight = '30px';
-            const symbol = document.createElement('p');
-            symbol.style.display = 'inline-block'
-            symbol.style.marginLeft = '20px'
-            symbol.innerText = `(${element.symbol})`;
-            const change = document.createElement('p');
-            change.style.display = 'inline-block'
-            change.style.marginLeft = '20px'
-            change.innerText = `(${Math.round(changesPercentage * 100) / 100}%))`;
-            greenOrRed(changesPercentage, change);
-            li.appendChild(imageEle);
-            li.appendChild(a);
-            li.appendChild(symbol);
-            li.appendChild(change);
-            ul.appendChild(li);
+        const li = document.createElement('li');
+        li.classList.add('list-group-item');
+        const a = document.createElement('a');
+        a.setAttribute("href", `/company.html?symbol=${element.symbol}`);
+        a.setAttribute("target", `_blank`);
+        a.innerText = element.name + element.symbol;
+        const imageEle = document.createElement('img')
+        imageEle.setAttribute('src', image)
+        imageEle.style.width = '30px';
+        imageEle.style.marginRight = '30px';
+        const symbol = document.createElement('p');
+        symbol.style.display = 'inline-block'
+        symbol.style.marginLeft = '20px'
+        symbol.innerText = `(${element.symbol})`;
+        const change = document.createElement('p');
+        change.style.display = 'inline-block'
+        change.style.marginLeft = '20px'
+        change.innerText = `(${Math.round(changesPercentage * 100) / 100}%))`;
+        greenOrRed(changesPercentage, change);
+        li.appendChild(imageEle);
+        li.appendChild(a);
+        li.appendChild(symbol);
+        li.appendChild(change);
+        ul.appendChild(li);
 
-        });
-    
+    });
+
 }
 
 async function displayMarquee() {
@@ -115,40 +116,9 @@ async function displayMarquee() {
     }
 }
 
-function loadQueryParams() {
-    if (window.location.search !== '') {
-        searchInput.value = window.location.search.slice(8);
-        search();
-    }
-}
-
-function spinnerDisplay(command) {
-    const searchSpinner = document.getElementById('search-spinner');
-    const searchLogo = document.getElementById('search-logo');
-
-    if (command === 'hide') {
-        searchSpinner.style.display = 'none';
-        searchLogo.style.display = 'inline-block';
-    } else {
-        searchLogo.style.display = 'none';
-        searchSpinner.style.display = 'inline-block';
-    }
-};
-
-function greenOrRed(value, element) {
-    if (value > 0) {
-        element.style.color = 'green'
-    } else if (value < 0) {
-        element.style.color = 'red'
-    } if (value === 0) {
-        element.style.color = 'grey'
-    }
-
-}
-
 function init() {
     displayMarquee();
-    loadQueryParams();
+    loadQueryParams(searchInput, search);
 }
 
 init();

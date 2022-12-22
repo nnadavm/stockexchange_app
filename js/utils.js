@@ -24,6 +24,14 @@ export const setQueryParams = (value) => {
     // window.location.search = searchParams.toString();
 }
 
+export const loadQueryParams = (target, callback) => {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('search') !== '') {
+        target.value = urlParams.get('search');
+        callback();
+    }
+}
+
 export const fetchData = async (URL) => {
     try {
         const response = await fetch(URL);
@@ -33,3 +41,22 @@ export const fetchData = async (URL) => {
         console.log(e);
     }
 };
+
+export const roundDown = (value) => {
+    return (Math.round(value * 100) / 100)
+}
+
+export const greenOrRed = (value, element) => {
+    if (value > 0) {
+        element.style.color = 'green'
+    } else if (value < 0) {
+        element.style.color = 'red'
+    } if (value === 0) {
+        element.style.color = 'grey'
+    }
+
+}
+
+export const displayElement = (element, displayState) => {
+    element.style.display = displayState;
+}
