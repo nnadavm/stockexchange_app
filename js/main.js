@@ -14,6 +14,10 @@ searchButton.addEventListener('click', () => {
 })
 
 async function search() {
+    if (searchInput.value === '') {
+        return
+    };
+    
     displayElement(searchLogo, 'none');
     displayElement(searchSpinner, 'inline-block');
     setQueryParams(searchInput.value);
