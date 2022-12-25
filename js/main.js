@@ -1,5 +1,13 @@
 import { debounce, setQueryParams, loadQueryParams, fetchData, greenOrRed, displayElement } from "./utils.js";
 import { searchButton, searchInput, searchSpinner, searchLogo } from "./constants.js";
+import { Marquee } from "./marquee.js";
+
+const test = document.getElementById('test');
+// const marq = new Marquee(test);
+// marq;
+await Marquee.fetchData();
+console.log(Marquee.data);
+Marquee.displayMarquee(test);
 
 let dataArray;
 let companyProfilesArray;
@@ -121,7 +129,7 @@ async function displayMarquee() {
 }
 
 function init() {
-    displayMarquee();
+    // displayMarquee();
     loadQueryParams(searchInput, search);
 }
 
