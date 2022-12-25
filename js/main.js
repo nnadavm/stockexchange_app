@@ -1,13 +1,6 @@
 import { debounce, setQueryParams, loadQueryParams, fetchData, greenOrRed, displayElement } from "./utils.js";
-import { searchButton, searchInput, searchSpinner, searchLogo } from "./constants.js";
+import { searchButton, searchInput, searchSpinner, searchLogo, marqueeDiv } from "./constants.js";
 import { Marquee } from "./marquee.js";
-
-const test = document.getElementById('test');
-// const marq = new Marquee(test);
-// marq;
-await Marquee.fetchData();
-console.log(Marquee.data);
-Marquee.displayMarquee(test);
 
 let dataArray;
 let companyProfilesArray;
@@ -25,7 +18,7 @@ async function search() {
     if (searchInput.value === '') {
         return
     };
-    
+
     displayElement(searchLogo, 'none');
     displayElement(searchSpinner, 'inline-block');
     setQueryParams(searchInput.value);
@@ -96,41 +89,11 @@ function displayResults() {
 
 }
 
-async function displayMarquee() {
-    try {
-        const response = await fetch(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/quotes/nyse`);
-        const stockListArray = await response.json();
-        let newArray = [];
-        await stockListArray.forEach((e) => {
-            newArray.push(e.symbol, e.price)
-        });
-
-        const marquee = document.getElementById('marquee-span');
-        newArray.forEach((e, i) => {
-            if (i % 2 === 0) {
-                const symbol = document.createElement('span');
-                symbol.innerText = `${e}:`;
-                symbol.style.fontWeight = '600';
-                symbol.style.paddingRight = '5px';
-                marquee.appendChild(symbol);
-            } else {
-                const price = document.createElement('span');
-                price.innerText = `$${e}`;
-                price.style.fontWeight = '600';
-                price.style.paddingRight = '5px';
-                price.style.color = 'green';
-                marquee.appendChild(price);
-            }
-        })
-    }
-    catch (e) {
-        console.log(e);
-    }
-}
-
-function init() {
-    // displayMarquee();
+async function init() {
     loadQueryParams(searchInput, search);
+    const marquee = new Marquee(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/quotes/nyse`);
+    await marquee.fetchData();
+    marquee.displayMarquee(marqueeDiv, marquee.data);
 }
 
 init();
