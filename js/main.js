@@ -17,11 +17,11 @@ async function search() {
     if (searchInput.value === '') {
         return
     };
-    
+
     displayElement(searchLogo, 'none');
     displayElement(searchSpinner, 'inline-block');
     setQueryParams(searchInput.value);
-    dataArray = await fetchData(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/search?query=${searchInput.value}&limit=10&exchange=NASDAQ`)
+    dataArray = await fetchData(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/search?query=${searchInput.value}&limit=10&exchange=NASDAQ`);
     await saveCompanyProfiles();
     displayResults();
     displayElement(searchSpinner, 'none');
@@ -29,14 +29,15 @@ async function search() {
 }
 
 async function saveCompanyProfiles() {
-    const symbolArray = dataArray.map(a => a.symbol);
-    const symbolString = symbolArray.toString();
-    const tempConst = await fetchData(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/company/profile/${symbolString}`);
-    if (dataArray.length > 1) {
-        companyProfilesArray = tempConst.companyProfiles;
-    } else {
-        companyProfilesArray = [tempConst];
-    };
+    const symbolArray = await dataArray.map(a => a.symbol);
+    const arr = [];
+    for (const symbol of symbolArray) {
+        const profile = fetchData(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/company/profile/${symbol}`);
+        arr.push(profile);
+    }
+    await Promise.all(arr).then((values) => {
+        companyProfilesArray = values;
+    });
 };
 
 function displayResults() {
@@ -92,31 +93,31 @@ async function displayMarquee() {
     try {
         const response = await fetch(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/quotes/nyse`);
         const stockListArray = await response.json();
-        let newArray = [];
+        let symbolArray = [];
+        let priceArray = [];
+        let changeArray = [];
         await stockListArray.forEach((e) => {
-            newArray.push(e.symbol, e.price)
+            symbolArray.push(e.symbol)
+            priceArray.push(e.price)
+            changeArray.push(e.change)
         });
-
         const marquee = document.getElementById('marquee-span');
-        newArray.forEach((e, i) => {
-            if (i % 2 === 0) {
-                const symbol = document.createElement('span');
-                symbol.innerText = `${e}:`;
-                symbol.style.fontWeight = '600';
-                symbol.style.paddingRight = '5px';
-                marquee.appendChild(symbol);
-            } else {
-                const price = document.createElement('span');
-                price.innerText = `$${e}`;
-                price.style.fontWeight = '600';
-                price.style.paddingRight = '5px';
-                price.style.color = 'green';
-                marquee.appendChild(price);
-            }
+        symbolArray.forEach((ele, i) => {
+            const symbol = document.createElement('span');
+            symbol.innerText = `${ele}:`;
+            symbol.style.fontWeight = '600';
+            symbol.style.paddingRight = '5px';
+            marquee.appendChild(symbol);
+            const price = document.createElement('span');
+            price.innerText = `$${priceArray[i]}`;
+            price.style.fontWeight = '600';
+            price.style.paddingRight = '5px';
+            greenOrRed(changeArray[i], price)
+            marquee.appendChild(price);
         })
     }
     catch (e) {
-        console.log(e);
+        console.log('error from displayMarquee:', e);
     }
 }
 
