@@ -1,43 +1,40 @@
 export class Marquee {
-    constructor(URL) {
-        this.URL = URL
+    constructor(element) {
+        this.element = element;
+        this.URL = `https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/quotes/nyse`
     }
 
     async fetchData() {
         try {
             const response = await fetch(this.URL);
-            const stockListArray = await response.json();
-
-            const newArray = [];
-            await stockListArray.forEach((e) => {
-                newArray.push(e.symbol, e.price)
-            });
-            this.data = newArray;
+            this.data = await response.json();
         }
         catch (e) {
             console.log(e);
         }
     }
 
-    async displayMarquee(element, data) {
+    async displayMarquee() {
         const marquee = document.createElement('span');
-
-        data.forEach((e, i) => {
-            if (i % 2 === 0) {
+            await this.data.forEach((ele) => {
                 const symbol = document.createElement('span');
-                symbol.innerText = `${e}:`;
+                symbol.innerText = `${ele.symbol}:`;
                 symbol.style.fontWeight = '600';
                 symbol.style.paddingRight = '5px';
                 marquee.appendChild(symbol);
-            } else {
                 const price = document.createElement('span');
-                price.innerText = `$${e}`;
+                price.innerText = `$${ele.price}`;
                 price.style.fontWeight = '600';
                 price.style.paddingRight = '5px';
-                price.style.color = 'green';
+                if (ele.change > 0) {
+                    price.style.color = 'green'
+                } else if (ele.change < 0) {
+                    price.style.color = 'red'
+                } if (ele.change === 0) {
+                    price.style.color = 'grey'
+                }
                 marquee.appendChild(price);
-            }
-        })
+            });
 
         const spanContainer = document.createElement('div');
         spanContainer.style.position = 'absolute';
@@ -53,16 +50,18 @@ export class Marquee {
             iterations: Infinity
         };
 
-
         spanContainer.animate(keyframes, options);
         spanContainer.appendChild(marquee);
 
-        element.style.height = '25px';
-        element.style.width = '100%';
-        element.style.overflow = 'hidden';
-        element.style.position = 'relative';
-        element.appendChild(spanContainer);
-
+        this.element.style.height = '25px';
+        this.element.style.width = '100%';
+        this.element.style.overflow = 'hidden';
+        this.element.style.position = 'relative';
+        this.element.appendChild(spanContainer);
     }
 
+    async load () {
+        await this.fetchData();
+        this.displayMarquee();
+    }
 }

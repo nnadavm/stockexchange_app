@@ -30,14 +30,15 @@ async function search() {
 }
 
 async function saveCompanyProfiles() {
-    const symbolArray = dataArray.map(a => a.symbol);
-    const symbolString = symbolArray.toString();
-    const tempConst = await fetchData(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/company/profile/${symbolString}`);
-    if (dataArray.length > 1) {
-        companyProfilesArray = tempConst.companyProfiles;
-    } else {
-        companyProfilesArray = [tempConst];
-    };
+    const symbolArray = await dataArray.map(a => a.symbol);
+    const arr = [];
+    for (const symbol of symbolArray) {
+        const profile = fetchData(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/company/profile/${symbol}`);
+        arr.push(profile);
+    }
+    await Promise.all(arr).then((values) => {
+        companyProfilesArray = values;
+    });
 };
 
 function displayResults() {
@@ -91,9 +92,8 @@ function displayResults() {
 
 async function init() {
     loadQueryParams(searchInput, search);
-    const marquee = new Marquee(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/quotes/nyse`);
-    await marquee.fetchData();
-    marquee.displayMarquee(marqueeDiv, marquee.data);
+    const marquee = new Marquee(marqueeDiv);
+    marquee.load();
 }
 
 init();
