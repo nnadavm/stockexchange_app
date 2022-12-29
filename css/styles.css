@@ -4,9 +4,9 @@
     margin: 0;
 }
 
-.wrapper {
+#main-container {
     margin: 0 auto;
-    width: 60vw;
+    width: 60vw ;
 }
 
 #search-container{

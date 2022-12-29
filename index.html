@@ -15,13 +15,11 @@
 </head>
 
 <body>
-    <div class="wrapper">
-        <div id="marquee"></div>
-        <div class="container mt-5 shadow-lg p-5 bg-white rounded">
-            <h2 class="mb-4 text-center display-4">Search Nasdaq Stocks</h2>
-            <div id="form"></div>
-            <div id="results"></div>
-        </div>
+    <div id="marquee"></div>
+    <div class="container mt-5 shadow-lg p-5 bg-white rounded" id="main-container">
+        <h2 class="mb-4 text-center display-4">Search Nasdaq Stocks</h2>
+        <div id="form"></div>
+        <div id="results"></div>
     </div>
     <script src="./js/marquee.js"></script>
     <script src="./js/searchForm.js"></script>
@@ -33,7 +31,7 @@
             const form = new SearchForm(document.getElementById('form'));
             const results = new SearchResult(document.getElementById('results'));
             form.onSearch(() => {
-                results.renderResults(form.dataArray, form.companyProfilesArray);
+                results.renderResults(form.data);
             })
         })()
     </script>

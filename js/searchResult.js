@@ -3,9 +3,9 @@ class SearchResult {
         this.element = element;
     }
     
-    renderResults(data, profiles) {
-        this.dataArray = data;
-        this.companyProfilesArray = profiles;
+    renderResults(data) {
+        this.dataArray = data[0];
+        this.companyProfilesArray = data[1];
         if (document.querySelector('ul')) {
             document.querySelector('ul').remove()
         };

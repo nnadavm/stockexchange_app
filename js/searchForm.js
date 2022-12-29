@@ -1,36 +1,55 @@
 class SearchForm {
     constructor(element) {
         this.element = element;
+        this.data = [];
+        
         this.renderForm();
         this.addListeners();
-        // this.loadQueryParams('goog', this.search);
+        this.loadQueryParams();
     }
 
     renderForm() {
-        this.element.innerHTML = `
-        <div id="search-container">
-            <div class="input-group rounded">
-                <input type="search" class="form-control rounded" id="search-input" placeholder="Search" />
-                <span class="input-group-text border-0" id="search-addon">
-                    <div class="spinner-border spinner-border-sm" id="search-spinner"></div>
-                    <i class="fas fa-search" id="search-logo"></i>
-                </span>
-            </div>
-        </div>
-        <div>
-            <h6>No stocks found</h6>
-        </div>
-        `;
+        const searchSpinner = document.createElement('div');
+        searchSpinner.classList.add("spinner-border", "spinner-border-sm");
+        searchSpinner.id = "search-spinner";
+        const i = document.createElement('i');
+        i.classList.add("fas", "fa-search");
+        i.id = "search-logo";
+        const span = document.createElement('span');
+        span.classList.add("input-group-text", "border-0");
+        span.id = "search-spinner";
+        span.append(searchSpinner, i);
 
-        this.searchButton = document.getElementById('search-addon');
-        this.searchInput = document.getElementById('search-input');
-        this.searchSpinner = document.getElementById('search-spinner');
-        this.searchLogo = document.getElementById('search-logo');
+        const input = document.createElement('input');
+        input.classList.add("form-control", "rounded");
+        input.setAttribute("type", "search");
+        input.setAttribute("placeholder", "Search");
+        input.id = "search-input";
+        const containerDiv = document.createElement('div');
+        containerDiv.classList.add("input-group", "rounded");
+        containerDiv.append(input, span);
+
+        const topDiv = document.createElement('div');
+        topDiv.id = "search-container";
+        topDiv.append(containerDiv);
+
+        const h6 = document.createElement('h6');
+        h6.innerText = 'No stocks found';
+        const h6Div = document.createElement('div');
+        h6Div.appendChild(h6);
+
+        this.element.append(topDiv, h6Div);
+
+        this.searchButton = span;
+        this.searchInput = input;
+        this.searchSpinner = searchSpinner;
+        this.searchLogo = i;
     }
 
     addListeners() {
+        const searchDebounce = this.debounce(this.search, 700);
+
         this.searchInput.addEventListener('input', () => {
-            const searchDebounce = this.debounce(() => this.search());
             searchDebounce();
         })
 
@@ -50,10 +69,9 @@ class SearchForm {
         this.setQueryParams(this.searchInput.value);
         this.dataArray = await this.fetchData(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/search?query=${this.searchInput.value}&limit=10&exchange=NASDAQ`);
         await this.saveCompanyProfiles();
-        // displayResults();
         this.displayElement(this.searchSpinner, 'none');
         this.displayElement(this.searchLogo, 'inline-block');
-        this.renderResults();
+        await this.renderResults();
     }
 
     async saveCompanyProfiles() {
@@ -65,13 +83,15 @@ class SearchForm {
         await Promise.all(arr).then((values) => {
             this.companyProfilesArray = values;
         });
+        this.data = [];
+        this.data.push(this.dataArray, this.companyProfilesArray);
     };
 
     renderResults() {
         console.error('SearchResult class not defined');
     }
 
-    onSearch(callback){
+    onSearch(callback) {
         this.renderResults = callback;
     }
 
@@ -99,16 +119,18 @@ class SearchForm {
         let timer;
         return (...args) => {
             clearTimeout(timer);
-            timer = setTimeout(() => { func.apply(this, args); }, timeout);
+            timer = setTimeout(() => {
+                func.apply(this, args);
+            }, timeout);
         };
     }
 
-    // loadQueryParams(target, callback) {
-    //     const urlParams = new URLSearchParams(window.location.search);
-    //     if (urlParams.get('search') !== '') {
-    //         target = urlParams.get('search');
-    //         callback();
-    //     }
-    // }
+    loadQueryParams() {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('search') !== null) {
+            this.searchInput.value = urlParams.get('search');
+            this.search();
+        }
+    }
 
 }
