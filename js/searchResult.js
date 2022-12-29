@@ -50,13 +50,20 @@ class SearchResult {
             change.style.marginLeft = '20px'
             change.innerText = `(${Math.round(changesPercentage * 100) / 100}%))`;
             this.greenOrRed(changesPercentage, change);
-            li.appendChild(imageEle);
-            li.appendChild(a);
-            li.appendChild(symbol);
-            li.appendChild(change);
+            const compareButton = document.createElement('button')
+            compareButton.innerText = 'Compare';
+            compareButton.classList.add("btn", "btn-primary");
+            compareButton.id = i;
+            compareButton.setAttribute('type', 'button');
+            compareButton.style.float = 'right';
+            li.append(imageEle, a, symbol, change, compareButton);
+            
             ul.appendChild(li);
-
         });
+        ul.addEventListener('click', (e) => {
+            if(e.target.type === 'button')
+            console.log(this.dataArray[e.target.id]);
+        })
     }
 
     greenOrRed(value, element) {
