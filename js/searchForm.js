@@ -1,8 +1,7 @@
 class SearchForm {
     constructor(element) {
         this.element = element;
-        this.data = [];
-        
+
         this.renderForm();
         this.addListeners();
         this.loadQueryParams();
@@ -23,7 +22,7 @@ class SearchForm {
         const input = document.createElement('input');
         input.classList.add("form-control", "rounded");
         input.setAttribute("type", "search");
-        input.setAttribute("placeholder", "Search");
+        input.setAttribute("placeholder", "Search for company stock symbol");
         input.id = "search-input";
         const containerDiv = document.createElement('div');
         containerDiv.classList.add("input-group", "rounded");
@@ -69,6 +68,7 @@ class SearchForm {
         this.setQueryParams(this.searchInput.value);
         this.dataArray = await this.fetchData(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/search?query=${this.searchInput.value}&limit=10&exchange=NASDAQ`);
         await this.saveCompanyProfiles();
+        this.exportData();
         this.displayElement(this.searchSpinner, 'none');
         this.displayElement(this.searchLogo, 'inline-block');
         await this.renderResults();
@@ -83,8 +83,6 @@ class SearchForm {
         await Promise.all(arr).then((values) => {
             this.companyProfilesArray = values;
         });
-        this.data = [];
-        this.data.push(this.dataArray, this.companyProfilesArray);
     };
 
     renderResults() {
@@ -131,6 +129,18 @@ class SearchForm {
             this.searchInput.value = urlParams.get('search');
             this.search();
         }
+    }
+
+    exportData() {
+        this.data = {
+            dataArray: this.dataArray,
+            companyProfilesArray: this.companyProfilesArray,
+            searchInputValue: this.searchInput.value
+        }
+
+
+        // this.data = [];
+        // this.data.push(this.dataArray, this.companyProfilesArray, this.searchInput.value);
     }
 
 }
