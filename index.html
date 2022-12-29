@@ -15,24 +15,29 @@
 </head>
 
 <body>
-    <div id="marquee-container"></div>
     <div class="wrapper">
-        <div id="search-container">
-            <h1>Search Nasdaq Stocks</h1>
-            <div class="input-group rounded">
-                <input type="search" class="form-control rounded" id="search-input" placeholder="Search" />
-                <span class="input-group-text border-0" id="search-addon">
-                    <div class="spinner-border spinner-border-sm" id="search-spinner"></div>
-                    <i class="fas fa-search" id="search-logo"></i>
-                </span>
-            </div>
-        </div>
-        <div>
-            <h6>No stocks found</h6>
+        <div id="marquee"></div>
+        <div class="container mt-5 shadow-lg p-5 bg-white rounded">
+            <h2 class="mb-4 text-center display-4">Search Nasdaq Stocks</h2>
+            <div id="form"></div>
+            <div id="results"></div>
         </div>
     </div>
+    <script src="./js/marquee.js"></script>
+    <script src="./js/searchForm.js"></script>
+    <script src="./js/searchResult.js"></script>
+    <script>
+        (async function () {
+            const marquee = new Marquee(document.getElementById('marquee'))
+            marquee.load();
+            const form = new SearchForm(document.getElementById('form'));
+            const results = new SearchResult(document.getElementById('results'));
+            form.onSearch(() => {
+                results.renderResults(form.dataArray, form.companyProfilesArray);
+            })
+        })()
+    </script>
 
-    <script src="./js/main.js" type="module"></script>
 </body>
 
 </html>

@@ -1,4 +1,4 @@
-export class Marquee {
+class Marquee {
     constructor(element) {
         this.element = element;
         this.URL = `https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/quotes/nyse`
