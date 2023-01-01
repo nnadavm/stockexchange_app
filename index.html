@@ -17,6 +17,7 @@
 <body>
     <div id="marquee"></div>
     <div class="container mt-5 shadow-lg p-5 bg-white rounded" id="main-container">
+        <div id="compare"></div>
         <h2 class="mb-4 text-center display-4">Search Nasdaq Stocks</h2>
         <div id="form"></div>
         <div id="results"></div>
@@ -24,10 +25,12 @@
     <script src="./js/marquee.js"></script>
     <script src="./js/searchForm.js"></script>
     <script src="./js/searchResult.js"></script>
+    <script src="./js/compare.js"></script>
     <script>
         (async function () {
             const marquee = new Marquee(document.getElementById('marquee'))
             marquee.load();
+            const compare = new Compare(document.getElementById('compare'));
             const form = new SearchForm(document.getElementById('form'));
             const results = new SearchResult(document.getElementById('results'));
             form.onSearch(() => {
