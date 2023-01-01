@@ -6,9 +6,6 @@
 
 #compInfo {
     margin: 0 auto;
-    padding: 0 !important;
-    padding-left: 3rem !important;
-    /* width: 60vw; */
 }
 
 .card-img-top {
@@ -18,8 +15,6 @@
 #header {
     display: flex;
     align-items: center;
-    /* padding-top: 20px;
-    padding-bottom: 20px; */
 }
 
 #header h1 {
@@ -50,7 +45,7 @@ p {
 }
 
 #chart-container {
-    padding-bottom: 50px;
+    margin: 50px;
 }
 
 .spinner-border {

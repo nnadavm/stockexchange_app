@@ -15,6 +15,7 @@
 
 
 </head>
+
 <body>
     <div id="compInfo" class="container mt-5 shadow-lg p-5 bg-white rounded"></div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
@@ -26,38 +27,7 @@
             const compInfo = new CompanyInfo(document.getElementById('compInfo'), symbol);
             await compInfo.load();
         })();
-            </script>
-</body> 
-
-<!-- <body>
-    <div class="spinner-border" id="spinner">
-    </div>
-    <div class="wrapper">
-        <div class="card" style="width: 60vw;">
-            <div class="card-body">
-                <div id="header">
-                    <img class="card-img-top">
-                    <a id="company-website">
-                        <h1 class="card-title"></h1>
-                    </a>
-                </div>
-                <div id="stock-price">
-                    <h4 id="price"></h4>
-                    <h4 id="change"></h4>
-                </div>
-                <p class="card-text"></p>
-            </div>
-
-        </div>
-
-        <div id="chart-container">
-            <canvas id="myChart"></canvas>
-        </div>
-
-    </div>
-
-    <script src="./js/company.js" type="module"></script>
-
-</body> -->
+    </script>
+</body>
 
 </html>

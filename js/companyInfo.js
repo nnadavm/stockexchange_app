@@ -7,10 +7,11 @@ class CompanyInfo {
     }
 
     async load() {
+        this.makeSpinner(this.element);
         this.companyProfileArr = await this.fetchData(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/company/profile/${this.symbol}`);
         await this.saveCompanyHistory();
         await this.displayData();
-        // this.displayElement(document.getElementById('spinner'), 'hide')
+        this.displayElement(document.getElementById('spinner'), 'none')
         this.makeChart(this.element, this.dateHistory, this.priceHistory);
     }
 
@@ -65,47 +66,15 @@ class CompanyInfo {
 
         this.element.appendChild(cardDiv);
 
-    //     this.element.innerHTML =
-    //         `<div class="spinner-border" id="spinner">
-    // </div>
-    // <div class="wrapper">
-    //     <div class="card" style="width: 60vw;">
-    //         <div class="card-body">
-    //             <div id="header">
-    //                 <img class="card-img-top">
-    //                 <a id="company-website">
-    //                     <h1 class="card-title"></h1>
-    //                 </a>
-    //             </div>
-    //             <div id="stock-price">
-    //                 <h4 id="price"></h4>
-    //                 <h4 id="change"></h4>
-    //             </div>
-    //             <p class="card-text"></p>
-    //         </div>
-
-    //     </div>
-
-    //     <div id="chart-container">
-    //         <canvas id="myChart"></canvas>
-    //     </div>
-
-    // </div>`
-
-        // const image = document.querySelector('img')
         image.setAttribute('src', this.companyProfileArr.profile.image)
         const { companyName, description, price, changes, website, changesPercentage } = this.companyProfileArr.profile;
 
-        // const title = document.querySelector('h1');
         h1.innerText = companyName;
 
-        // const descEle = document.querySelector('p');
         p.innerText = description;
 
-        // const priceEle = document.getElementById('price');
         h4price.innerText = `Stock Price: $${this.roundDown(price)}`
 
-        // const changeEle = document.getElementById('change');
         if (changes > 0) {
             h4change.style.color = 'green'
         } else if (changes < 0) {
@@ -114,7 +83,6 @@ class CompanyInfo {
             h4change.style.color = 'grey'
         }
         h4change.innerText = `${this.roundDown(changes)} (${this.roundDown(changesPercentage)}%))`;
-        // const a = document.getElementById('company-website');
         a.setAttribute("href", website);
     }
 
@@ -152,6 +120,14 @@ class CompanyInfo {
     
             }
         });
+    }
+
+    makeSpinner(targetElement) {
+        const spinner = document.createElement('div');
+        spinner.classList.add('spinner-border');
+        spinner.id = 'spinner';
+
+        targetElement.appendChild(spinner);
     }
 
 }
