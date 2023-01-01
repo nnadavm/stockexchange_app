@@ -4,9 +4,11 @@
     margin: 0;
 }
 
-.wrapper {
+#compInfo {
     margin: 0 auto;
-    width: 60vw;
+    padding: 0 !important;
+    padding-left: 3rem !important;
+    /* width: 60vw; */
 }
 
 .card-img-top {
@@ -16,8 +18,8 @@
 #header {
     display: flex;
     align-items: center;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    /* padding-top: 20px;
+    padding-bottom: 20px; */
 }
 
 #header h1 {
@@ -36,6 +38,10 @@
 
 .card{
     border: none;
+}
+
+.card-body {
+    padding: 0 !important;
 }
 
 p {

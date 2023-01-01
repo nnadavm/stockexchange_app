@@ -50,7 +50,6 @@ function displayData() {
 async function init() {
     await fetchCompanyData();
     await saveCompanyHistory();
-    // spinnerDisplay('hide');
     displayElement(spinner, 'hide')
     displayData();
     makeChart(ctx, dateHistory, priceHistory);

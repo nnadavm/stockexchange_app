@@ -15,8 +15,21 @@
 
 
 </head>
-
 <body>
+    <div id="compInfo" class="container mt-5 shadow-lg p-5 bg-white rounded"></div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="./js/companyInfo.js"></script>
+    <script>
+        (async function () {
+            const params = new URLSearchParams(location.search);
+            const symbol = params.get('symbol');
+            const compInfo = new CompanyInfo(document.getElementById('compInfo'), symbol);
+            await compInfo.load();
+        })();
+            </script>
+</body> 
+
+<!-- <body>
     <div class="spinner-border" id="spinner">
     </div>
     <div class="wrapper">
@@ -45,6 +58,6 @@
 
     <script src="./js/company.js" type="module"></script>
 
-</body>
+</body> -->
 
 </html>
