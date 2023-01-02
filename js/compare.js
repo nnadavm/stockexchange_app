@@ -7,6 +7,7 @@ class Compare {
 
     renderComparisonBar() {
         const container = document.createElement('div');
+        container.id = 'compareContainer'
         container.style.height = '45px';
         container.style.backgroundColor = '#EAECEF';
         container.style.padding = '10px'
@@ -26,33 +27,26 @@ class Compare {
         compareButton.setAttribute('type', 'button');
         compareButton.style.float = 'right';
 
+        const a = document.createElement('a');
+        a.setAttribute('href', `../compare.html?symbols=${this.selectedCompanies}`);
+        a.setAttribute('target', "_blank");
+
+        a.appendChild(compareButton)
+
         container.append(symbolContainer, compareButton);
         this.element.appendChild(container);
         this.container = symbolContainer;
 
         compareButton.addEventListener('click', () => {
-            this.addCompany();
+            console.log(this.selectedCompanies);
+
+            window.open((`../compare.html?symbols=${this.selectedCompanies}`), '_blank');
+
         })
-    }
+    }   
 
-    addCompany() {
-        const symbolButton = document.createElement('button')
-        symbolButton.classList.add("btn", "btn-secondary", ".btn-sm");
-        symbolButton.innerText = 'goog ';
-        symbolButton.setAttribute('type', 'button');
-        symbolButton.style.marginRight = '5px';
-
-        const xButton = document.createElement('button');
-        xButton.classList.add("btn", "btn-dark");
-        xButton.style.padding = '0';
-        xButton.innerText = 'x';
-
-        symbolButton.appendChild(xButton);
-        this.container.prepend(symbolButton);
-
-        xButton.addEventListener('click', (e) => {
-            e.target.parentElement.remove();
-        })
-
+    importSelectedCompanies(data) {
+        this.selectedCompanies = result;
+        let result = data.map(a => a.symbol);
     }
 }

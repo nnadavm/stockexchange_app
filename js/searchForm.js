@@ -137,10 +137,6 @@ class SearchForm {
             companyProfilesArray: this.companyProfilesArray,
             searchInputValue: this.searchInput.value
         }
-
-
-        // this.data = [];
-        // this.data.push(this.dataArray, this.companyProfilesArray, this.searchInput.value);
     }
 
 }

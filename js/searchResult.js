@@ -1,6 +1,7 @@
 class SearchResult {
     constructor(element) {
         this.element = element;
+        this.selectedCompanies = [];
     }
 
     renderResults(data) {
@@ -57,12 +58,26 @@ class SearchResult {
             compareButton.setAttribute('type', 'button');
             compareButton.style.float = 'right';
             li.append(imageEle, a, symbol, change, compareButton);
-            
+
             ul.appendChild(li);
         });
         ul.addEventListener('click', (e) => {
-            if(e.target.type === 'button')
-            console.log(this.dataArray[e.target.id]);
+            const clicked = this.dataArray[e.target.id]
+            if (e.target.type === 'button') {
+                if (this.selectedCompanies.length >= 3){
+                    alert('3 is the maximum number of companies for comparison');
+                    return;
+                }
+                if (clicked.isSelected === true) {
+                    return
+                };
+                clicked.isSelected = true;
+                this.addCompanyCompare(clicked.symbol, document.getElementById('compareContainer'));
+                this.selectedCompanies.push(clicked);
+
+                this.exportSelectedCompanies();
+                // console.log(this.selectedCompanies);
+            }
         })
     }
 
@@ -74,7 +89,6 @@ class SearchResult {
         } if (value === 0) {
             element.style.color = 'grey'
         }
-
     }
 
     highlightText(text, element) {
@@ -100,5 +114,46 @@ class SearchResult {
         this.dataArray = data.dataArray;
         this.companyProfilesArray = data.companyProfilesArray;
         this.searchInputValue = data.searchInputValue;
+    }
+
+    addCompanyCompare(symbol, targetElement) {
+        const symbolButton = document.createElement('button')
+        symbolButton.classList.add("btn", "btn-secondary", ".btn-sm");
+        symbolButton.innerText = symbol;
+        symbolButton.id = symbol;
+        symbolButton.setAttribute('type', 'button');
+        symbolButton.style.display = 'flex';
+
+        const xButton = document.createElement('button');
+        xButton.classList.add("btn", "btn-dark");
+        xButton.style.padding = '0';
+        xButton.innerText = 'x';
+        xButton.style.marginLeft = '10px';
+
+        symbolButton.appendChild(xButton);
+        targetElement.prepend(symbolButton);
+
+        xButton.addEventListener('click', (e) => {
+            this.removeCompanyCompare(e.target.parentElement.id);
+            e.target.parentElement.remove();
+        })
+    }
+
+    removeCompanyCompare(value) {
+        for (const element of this.selectedCompanies) {
+            if (element.symbol === value.toUpperCase()) {
+                const index = this.selectedCompanies.indexOf(element);
+                this.selectedCompanies.splice(index, 1);
+            };
+        }
+        console.log(this.selectedCompanies)
+    }
+
+    exportSelectedCompanies() {
+        console.error('Compare class not defined');
+    }
+
+    onCompare(callback) {
+        this.exportSelectedCompanies = callback;
     }
 }

@@ -35,6 +35,9 @@
             const results = new SearchResult(document.getElementById('results'));
             form.onSearch(() => {
                 results.renderResults(form.data);
+            });
+            results.onCompare(() => {
+                compare.importSelectedCompanies(results.selectedCompanies);
             })
         })()
     </script>
