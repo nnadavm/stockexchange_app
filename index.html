@@ -11,33 +11,38 @@
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link href="./css/styles.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/62179b7ffd.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
 
 <body>
-    <div class="marquee">
-        <div>
-            <span id="marquee-span"></span>
-        </div>
+    <div id="marquee"></div>
+    <div class="container mt-5 shadow-lg p-5 bg-white rounded" id="main-container">
+        <div id="compare"></div>
+        <h2 class="mb-4 text-center display-4">Search Nasdaq Stocks</h2>
+        <div id="form"></div>
+        <div id="results"></div>
     </div>
-    <div class="wrapper">
+    <script src="./js/marquee.js"></script>
+    <script src="./js/searchForm.js"></script>
+    <script src="./js/searchResult.js"></script>
+    <script src="./js/compare.js"></script>
+    <script>
+        (async function () {
+            const marquee = new Marquee(document.getElementById('marquee'))
+            marquee.load();
+            const compare = new Compare(document.getElementById('compare'));
+            const form = new SearchForm(document.getElementById('form'));
+            const results = new SearchResult(document.getElementById('results'));
+            form.onSearch(() => {
+                results.renderResults(form.data);
+            });
+            results.onCompare(() => {
+                compare.importSelectedCompanies(results.selectedCompanies);
+            })
+        })()
+    </script>
 
-        <div id="search-container">
-            <h1>Search Nasdaq Stocks</h1>
-            <div class="input-group rounded">
-                <input type="search" class="form-control rounded" id="search-input" placeholder="Search" />
-                <span class="input-group-text border-0" id="search-addon">
-                    <div class="spinner-border spinner-border-sm" id="search-spinner"></div>
-                    <i class="fas fa-search" id="search-logo"></i>
-                </span>
-            </div>
-        </div>
-        <div>
-            <h6>No stocks found</h6>
-        </div>
-    </div>
-
-    <script src="./js/main.js" type="module"></script>
 </body>
 
 </html>

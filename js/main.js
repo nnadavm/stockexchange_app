@@ -1,5 +1,6 @@
 import { debounce, setQueryParams, loadQueryParams, fetchData, greenOrRed, displayElement } from "./utils.js";
-import { searchButton, searchInput, searchSpinner, searchLogo } from "./constants.js";
+import { searchButton, searchInput, searchSpinner, searchLogo, marqueeDiv } from "./constants.js";
+import { Marquee } from "./marquee.js";
 
 let dataArray;
 let companyProfilesArray;
@@ -89,33 +90,10 @@ function displayResults() {
 
 }
 
-async function displayMarquee() {
-    try {
-        const response = await fetch(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/quotes/nyse`);
-        const stockListArray = await response.json();
-        const marquee = document.getElementById('marquee-span');
-        await stockListArray.forEach((ele, ) => {
-            const symbol = document.createElement('span');
-            symbol.innerText = `${ele.symbol}:`;
-            symbol.style.fontWeight = '600';
-            symbol.style.paddingRight = '5px';
-            marquee.appendChild(symbol);
-            const price = document.createElement('span');
-            price.innerText = `$${ele.price}`;
-            price.style.fontWeight = '600';
-            price.style.paddingRight = '5px';
-            greenOrRed(ele.change, price)
-            marquee.appendChild(price);
-        });
-    }
-    catch (e) {
-        console.log('error from displayMarquee:', e);
-    }
-}
-
-function init() {
-    displayMarquee();
+async function init() {
     loadQueryParams(searchInput, search);
+    const marquee = new Marquee(marqueeDiv);
+    marquee.load();
 }
 
 init();

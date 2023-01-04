@@ -4,18 +4,16 @@
     margin: 0;
 }
 
-.wrapper {
+#main-container {
     margin: 0 auto;
     width: 60vw;
 }
 
-#search-container{
-    /* background-color: #FED301; */
+#search-container {
     padding: 20px;
     margin-top: 50px;
     margin-bottom: 20px;
     border-radius: 10px;
-    /* box-shadow: 5px 5px; */
 }
 
 #search-container h1 {
@@ -37,26 +35,12 @@
     display: none;
 }
 
-.marquee {
-    height: 25px;
-    width: 100%;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .marquee div {
-    position: absolute;
-    overflow: hidden;
-    animation: marquee 40s linear infinite;
-  }
-
-  @keyframes marquee {
-    0% { left: 0; }
-    100% { left: -100%; }
-  }
-
-  h6 {
+h6 {
     display: none;
     text-align: center;
     margin: 0 auto;
-  }
+}
+
+i:hover {
+    opacity: 0.5;
+}

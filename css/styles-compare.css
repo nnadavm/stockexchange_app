@@ -4,8 +4,20 @@
     margin: 0;
 }
 
-#compInfo {
+#wrapper{
     margin: 0 auto;
+    display: flex;
+    width: 90vw;
+}
+
+h2 {
+    padding-top: 20px;
+}
+
+.compInfo {
+    margin-left: 20px !important;
+    margin-right: 20px !important;
+    border: 1px grey solid;
 }
 
 .card-img-top {
@@ -15,24 +27,26 @@
 #header {
     display: flex;
     align-items: center;
+    height: 80px;
 }
 
 #header h1 {
     padding-left: 10px;
-    font-size: 32px;
+    font-size: 24px;
 }
 
 #stock-price {
     display: flex;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
 }
 
 #stock-price h4 {
-    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 18px;
 }
 
 .card{
-    border: none;
+    border: none !important;
 }
 
 .card-body {
