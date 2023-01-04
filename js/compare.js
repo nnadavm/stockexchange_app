@@ -1,6 +1,7 @@
 class Compare {
     constructor(element) {
         this.element = element;
+        this.selectedCompanies = [];
 
         this.renderComparisonBar();
     }
@@ -11,9 +12,11 @@ class Compare {
         container.style.height = '45px';
         container.style.backgroundColor = '#EAECEF';
         container.style.padding = '10px'
+        container.style.marginBottom = '20px'
         container.style.display = 'flex';
         container.style.justifyContent = 'space-between';
         container.style.alignItems = 'center';
+        container.style.borderRadius = '10px';
 
         const symbolContainer = document.createElement('div');
         symbolContainer.style.width = '100%';
@@ -38,15 +41,16 @@ class Compare {
         this.container = symbolContainer;
 
         compareButton.addEventListener('click', () => {
-            console.log(this.selectedCompanies);
-
+            if (this.selectedCompanies.length < 2) {
+                alert('Please choose companies for comparison');
+            } else {
             window.open((`../compare.html?symbols=${this.selectedCompanies}`), '_blank');
-
+            }
         })
     }   
 
     importSelectedCompanies(data) {
-        this.selectedCompanies = result;
         let result = data.map(a => a.symbol);
+        this.selectedCompanies = result;
     }
 }

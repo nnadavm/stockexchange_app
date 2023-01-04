@@ -15,13 +15,20 @@ class CompanyInfo {
         this.makeChart(this.element, this.dateHistory, this.priceHistory);
     }
 
+    async loadCompare() {
+        this.companyProfileArr = await this.fetchData(`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/company/profile/${this.symbol}`);
+        await this.saveCompanyHistory();
+        await this.displayData();
+        this.makeChart(this.element, this.dateHistory, this.priceHistory);
+    }
+
     async fetchData(URL) {
         try {
             const response = await fetch(URL);
             return await response.json();
         }
         catch (e) {
-            console.log(e);
+            console.error(e);
         }
     };
 

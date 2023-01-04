@@ -1,0 +1,69 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+#wrapper{
+    margin: 0 auto;
+    display: flex;
+    width: 90vw;
+}
+
+h2 {
+    padding-top: 20px;
+}
+
+.compInfo {
+    margin-left: 20px !important;
+    margin-right: 20px !important;
+    border: 1px grey solid;
+}
+
+.card-img-top {
+    max-width: 80px;
+}
+
+#header {
+    display: flex;
+    align-items: center;
+    height: 80px;
+}
+
+#header h1 {
+    padding-left: 10px;
+    font-size: 24px;
+}
+
+#stock-price {
+    display: flex;
+    padding-bottom: 10px;
+}
+
+#stock-price h4 {
+    padding-right: 10px;
+    font-size: 18px;
+}
+
+.card{
+    border: none !important;
+}
+
+.card-body {
+    padding: 0 !important;
+}
+
+p {
+    font-size: 14px;
+    padding-bottom: 20px;
+}
+
+#chart-container {
+    margin: 50px;
+}
+
+.spinner-border {
+    position: relative;
+    top: 50vh;
+    left: 50vw;
+}

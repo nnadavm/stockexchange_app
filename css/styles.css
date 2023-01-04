@@ -6,10 +6,10 @@
 
 #main-container {
     margin: 0 auto;
-    width: 60vw ;
+    width: 60vw;
 }
 
-#search-container{
+#search-container {
     padding: 20px;
     margin-top: 50px;
     margin-bottom: 20px;
@@ -35,8 +35,12 @@
     display: none;
 }
 
-  h6 {
+h6 {
     display: none;
     text-align: center;
     margin: 0 auto;
-  }
+}
+
+i:hover {
+    opacity: 0.5;
+}

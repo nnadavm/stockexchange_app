@@ -64,7 +64,7 @@ class SearchResult {
         ul.addEventListener('click', (e) => {
             const clicked = this.dataArray[e.target.id]
             if (e.target.type === 'button') {
-                if (this.selectedCompanies.length >= 3){
+                if (this.selectedCompanies.length >= 3) {
                     alert('3 is the maximum number of companies for comparison');
                     return;
                 }
@@ -76,7 +76,6 @@ class SearchResult {
                 this.selectedCompanies.push(clicked);
 
                 this.exportSelectedCompanies();
-                // console.log(this.selectedCompanies);
             }
         })
     }
@@ -118,17 +117,17 @@ class SearchResult {
 
     addCompanyCompare(symbol, targetElement) {
         const symbolButton = document.createElement('button')
-        symbolButton.classList.add("btn", "btn-secondary", ".btn-sm");
+        symbolButton.classList.add("btn", "btn-primary", ".btn-sm");
         symbolButton.innerText = symbol;
         symbolButton.id = symbol;
         symbolButton.setAttribute('type', 'button');
         symbolButton.style.display = 'flex';
+        symbolButton.style.marginRight = '5px';
 
-        const xButton = document.createElement('button');
-        xButton.classList.add("btn", "btn-dark");
-        xButton.style.padding = '0';
-        xButton.innerText = 'x';
+        const xButton = document.createElement('i');
+        xButton.classList.add("fa-solid", "fa-xmark");
         xButton.style.marginLeft = '10px';
+        xButton.style.marginTop = '5px';
 
         symbolButton.appendChild(xButton);
         targetElement.prepend(symbolButton);
@@ -146,7 +145,7 @@ class SearchResult {
                 this.selectedCompanies.splice(index, 1);
             };
         }
-        console.log(this.selectedCompanies)
+        this.exportSelectedCompanies();
     }
 
     exportSelectedCompanies() {

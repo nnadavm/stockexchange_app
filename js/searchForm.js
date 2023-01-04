@@ -109,7 +109,7 @@ class SearchForm {
             return await response.json();
         }
         catch (e) {
-            console.log(e);
+            console.error(e);
         }
     }
 
